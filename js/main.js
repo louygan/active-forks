@@ -101,6 +101,7 @@ function fetchAndShow(repo) {
   repo = repo.replace('http://github.com/', '');
   repo = repo.replace('.git', '');
 
+  // for example, https://api.github.com/repos/techgaun/active-forks/forks?sort=stargazers&per_page=100
   fetch(
     `https://api.github.com/repos/${repo}/forks?sort=stargazers&per_page=100`
   )
