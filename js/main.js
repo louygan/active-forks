@@ -103,10 +103,12 @@ function initDT() {
   });
 }
 
-function fetchAndShow(repo) {
+async function fetchAndShow(repo) {
   repo = repo.replace('https://github.com/', '');
   repo = repo.replace('http://github.com/', '');
   repo = repo.replace('.git', '');
+
+  var ownerAndBranch = await fetchRepoInfo(repo);
 
   // for example, https://api.github.com/repos/techgaun/active-forks/forks?sort=stargazers&per_page=100
   fetch(
@@ -118,7 +120,6 @@ function fetchAndShow(repo) {
     })
     .then(data => {
       console.log(data);
-      var ownerAndBranch = fetchRepoInfo(repo);
       console.log('fetchAndShow.ownerrAndBranch = ',ownerAndBranch);
       console.log('fetchAndShow.repo = ',repo);
       updateDT(data, repo, ownerAndBranch);
@@ -158,13 +159,13 @@ function getRepoFromUrl() {
   return urlRepo && decodeURIComponent(urlRepo);
 }
 
-function fetchRepoInfo(repo) {
+async function fetchRepoInfo(repo) {
   repo = repo.replace('https://github.com/', '');
   repo = repo.replace('http://github.com/', '');
   repo = repo.replace('.git', '');
 
   // for example, https://api.github.com/repos/techgaun/active-forks
-  fetch(
+  return await fetch(
     `https://api.github.com/repos/${repo}`
   )
     .then(response => {
