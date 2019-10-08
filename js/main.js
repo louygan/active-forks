@@ -103,8 +103,6 @@ function fetchAndShow(repo) {
   repo = repo.replace('https://github.com/', '');
   repo = repo.replace('http://github.com/', '');
   repo = repo.replace('.git', '');
-  
-  var ownerAndBranch = fetchRepoInfo(repo);
 
   // for example, https://api.github.com/repos/techgaun/active-forks/forks?sort=stargazers&per_page=100
   fetch(
@@ -116,6 +114,7 @@ function fetchAndShow(repo) {
     })
     .then(data => {
       console.log(data);
+      var ownerAndBranch = fetchRepoInfo(repo);
       console.log(ownerAndBranch);
       updateDT(data, repo, ownerAndBranch);
     })
