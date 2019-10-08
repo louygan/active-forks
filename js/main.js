@@ -43,7 +43,8 @@ function updateDT(data, repo, ownerAndBranch) {
   for (let fork of data) {
     fork.repoLink = `<a href="https://github.com/${fork.full_name}">Link</a>`;
     fork.ownerName = fork.owner.login;
-    fork.status = ownerAndBranch
+    fork.status = ownerAndBranch;
+    console.log(fork.status);
     forks.push(fork);
   }
   const dataSet = forks.map(fork =>
@@ -103,7 +104,7 @@ function fetchAndShow(repo) {
   repo = repo.replace('http://github.com/', '');
   repo = repo.replace('.git', '');
   
-  ownerAndBranch = fetchRepoInfo(repo)
+  ownerAndBranch = fetchRepoInfo(repo);
 
   // for example, https://api.github.com/repos/techgaun/active-forks/forks?sort=stargazers&per_page=100
   fetch(
@@ -115,6 +116,7 @@ function fetchAndShow(repo) {
     })
     .then(data => {
       console.log(data);
+      console.log(ownerAndBranch);
       updateDT(data, repo, ownerAndBranch);
     })
     .catch(error => {
