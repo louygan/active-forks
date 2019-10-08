@@ -34,7 +34,7 @@ function fetchData() {
   }
 }
 
-function updateDT(data) {
+function updateDT(data, repo, ownerAndBranch) {
   // Remove any alerts, if any:
   if ($('.alert')) $('.alert').remove();
 
@@ -43,6 +43,7 @@ function updateDT(data) {
   for (let fork of data) {
     fork.repoLink = `<a href="https://github.com/${fork.full_name}">Link</a>`;
     fork.ownerName = fork.owner.login;
+    fork.status = ownerAndBranch
     forks.push(fork);
   }
   const dataSet = forks.map(fork =>
@@ -67,6 +68,7 @@ function initDT() {
     ['Open Issues', 'open_issues_count'],
     ['Size', 'size'],
     ['Last Push', 'pushed_at'],
+    ['Status', 'status'],
   ];
 
   // Sort by stars:
@@ -100,6 +102,8 @@ function fetchAndShow(repo) {
   repo = repo.replace('https://github.com/', '');
   repo = repo.replace('http://github.com/', '');
   repo = repo.replace('.git', '');
+  
+  ownerAndBranch = fetchRepoInfo(repo)
 
   // for example, https://api.github.com/repos/techgaun/active-forks/forks?sort=stargazers&per_page=100
   fetch(
@@ -111,7 +115,7 @@ function fetchAndShow(repo) {
     })
     .then(data => {
       console.log(data);
-      updateDT(data);
+      updateDT(data, repo, ownerAndBranch);
     })
     .catch(error => {
       const msg =
@@ -146,4 +150,34 @@ function getRepoFromUrl() {
   const urlRepo = location.hash && location.hash.slice(1);
 
   return urlRepo && decodeURIComponent(urlRepo);
+}
+
+function fetchRepoInfo(repo) {
+  repo = repo.replace('https://github.com/', '');
+  repo = repo.replace('http://github.com/', '');
+  repo = repo.replace('.git', '');
+
+  // for example, https://api.github.com/repos/techgaun/active-forks
+  fetch(
+    `https://api.github.com/repos/${repo}`
+  )
+    .then(response => {
+      if (!response.ok) throw Error(response.statusText);
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+      var str = ''
+      var value = str.concat(data.owner.login,':',data.default_branch)
+      console.log(value)
+      return value
+    })
+    .catch(error => {
+      const msg =
+        error.toString().indexOf('Forbidden') >= 0
+          ? 'Error: API Rate Limit Exceeded'
+          : error;
+      showMsg(`${msg}. Additional info in console`, 'danger');
+      console.error(error);
+    });
 }
