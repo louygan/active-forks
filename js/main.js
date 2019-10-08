@@ -104,7 +104,7 @@ function fetchAndShow(repo) {
   repo = repo.replace('http://github.com/', '');
   repo = repo.replace('.git', '');
   
-  ownerAndBranch = fetchRepoInfo(repo);
+  var ownerAndBranch = fetchRepoInfo(repo);
 
   // for example, https://api.github.com/repos/techgaun/active-forks/forks?sort=stargazers&per_page=100
   fetch(
@@ -169,10 +169,10 @@ function fetchRepoInfo(repo) {
     })
     .then(data => {
       console.log(data);
-      var str = ''
-      var value = str.concat(data.owner.login,':',data.default_branch)
-      console.log(value)
-      return value
+      var str = '';
+      var value = str.concat(data.owner.login,':',data.default_branch);
+      //console.log(value);
+      return value;
     })
     .catch(error => {
       const msg =
