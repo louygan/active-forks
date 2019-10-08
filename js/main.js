@@ -43,7 +43,11 @@ function updateDT(data, repo, ownerAndBranch) {
   for (let fork of data) {
     fork.repoLink = `<a href="https://github.com/${fork.full_name}">Link</a>`;
     fork.ownerName = fork.owner.login;
-    fork.status = ownerAndBranch;
+    if ( typeof ownerAndBranch !== 'undefined' ) {
+      fork.status = ownerAndBranch;
+    } else {
+      fork.status = ''
+    }
     console.log(fork.status);
     forks.push(fork);
   }
