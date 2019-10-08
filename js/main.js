@@ -116,6 +116,7 @@ function fetchAndShow(repo) {
       console.log(data);
       var ownerAndBranch = fetchRepoInfo(repo);
       console.log(ownerAndBranch);
+      console.log(repo);
       updateDT(data, repo, ownerAndBranch);
     })
     .catch(error => {
