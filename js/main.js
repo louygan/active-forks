@@ -115,8 +115,8 @@ function fetchAndShow(repo) {
     .then(data => {
       console.log(data);
       var ownerAndBranch = fetchRepoInfo(repo);
-      console.log(ownerAndBranch);
-      console.log(repo);
+      console.log('fetchAndShow.ownerrAndBranch = ',ownerAndBranch);
+      console.log('fetchAndShow.repo = ',repo);
       updateDT(data, repo, ownerAndBranch);
     })
     .catch(error => {
@@ -171,7 +171,7 @@ function fetchRepoInfo(repo) {
       console.log(data);
       var str = '';
       var value = str.concat(data.owner.login,':',data.default_branch);
-      //console.log(value);
+      console.log('fetchRepoInnfo.value = ', value);
       return value;
     })
     .catch(error => {
