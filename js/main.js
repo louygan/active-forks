@@ -1,4 +1,4 @@
-// version 1.0.4
+// version 1.0.5
 
 window.addEventListener('load', () => {
   initDT(); // Initialize the DatatTable and window.columnNames variables
