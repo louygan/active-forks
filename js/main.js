@@ -1,4 +1,4 @@
-// version 1.00
+// version 1.0.1
 
 window.addEventListener('load', () => {
   initDT(); // Initialize the DatatTable and window.columnNames variables
@@ -36,7 +36,7 @@ function fetchData() {
   }
 }
 
-function updateDT(data, repo, ownerAndBranch) {
+async function updateDT(data, repo, ownerAndBranch) {
   // Remove any alerts, if any:
   if ($('.alert')) $('.alert').remove();
 
@@ -45,11 +45,12 @@ function updateDT(data, repo, ownerAndBranch) {
   for (let fork of data) {
     fork.repoLink = `<a href="https://github.com/${fork.full_name}">Link</a>`;
     fork.ownerName = fork.owner.login;
-    if ( typeof ownerAndBranch !== 'undefined' ) {
-      fork.status = ownerAndBranch;
-    } else {
-      fork.status = ''
-    }
+    //if ( typeof ownerAndBranch !== 'undefined' ) {
+    //  fork.status = ownerAndBranch;
+    //} else {
+    //  fork.status = ''
+    //}
+    fork.status = await fetchForkInfo(repo, ownerAndBranch, fork.ownerName, fork.default_branch);
     console.log(fork.status);
     forks.push(fork);
   }
@@ -188,5 +189,33 @@ async function fetchRepoInfo(repo) {
           : error;
       showMsg(`${msg}. Additional info in console`, 'danger');
       console.error(error);
+    });
+}
+
+async function fetchForkInfo(repo, ownerAndBranch, forkOwner, forkBranch) {
+  repo = repo.replace('https://github.com/', '');
+  repo = repo.replace('http://github.com/', '');
+  repo = repo.replace('.git', '');
+
+  // for example, https://api.github.com/repos/techgaun/active-forks/compare/techgaun:master...RedTahr:master
+  return await fetch(
+    `https://api.github.com/repos/${repo}/compare/${ownerAndBranch}...${forkOwner}:${forkBranch}`
+  )
+    .then(response => {
+      if (!response.ok) throw Error(response.statusText);
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+      return data.status  
+    })
+    .catch(error => {
+      const msg =
+        error.toString().indexOf('Forbidden') >= 0
+          ? 'Error: API Rate Limit Exceeded'
+          : error;
+      showMsg(`${msg}. Additional info in console`, 'danger');
+      console.error(error);
+      return ''
     });
 }
