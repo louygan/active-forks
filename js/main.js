@@ -1,4 +1,4 @@
-// version 1.0.3
+// version 1.0.4
 
 window.addEventListener('load', () => {
   initDT(); // Initialize the DatatTable and window.columnNames variables
@@ -120,7 +120,7 @@ async function fetchAndShow(repo) {
 
   // for example, https://api.github.com/repos/techgaun/active-forks/forks?sort=stargazers&per_page=100
   fetch(
-    `https://api.github.com/repos/${repo}/forks?sort=stargazers&per_page=100?client_id=fe51cb18a764a29fc455&client_secrt=8f7b630d487247659702cca0ebb7242b50dd91db`
+    `https://api.github.com/repos/${repo}/forks?sort=stargazers&per_page=100?client_id=fe51cb18a764a29fc455&client_secret=8f7b630d487247659702cca0ebb7242b50dd91db`
   )
     .then(response => {
       if (!response.ok) throw Error(response.statusText);
@@ -174,7 +174,7 @@ async function fetchRepoInfo(repo) {
 
   // for example, https://api.github.com/repos/techgaun/active-forks
   return await fetch(
-    `https://api.github.com/repos/${repo}?client_id=fe51cb18a764a29fc455&client_secrt=8f7b630d487247659702cca0ebb7242b50dd91db`
+    `https://api.github.com/repos/${repo}?client_id=fe51cb18a764a29fc455&client_secret=8f7b630d487247659702cca0ebb7242b50dd91db`
   )
     .then(response => {
       if (!response.ok) throw Error(response.statusText);
@@ -204,7 +204,7 @@ async function fetchForkInfo(repo, ownerAndBranch, forkOwner, forkBranch) {
 
   // for example, https://api.github.com/repos/techgaun/active-forks/compare/techgaun:master...RedTahr:master
   return await fetch(
-    `https://api.github.com/repos/${repo}/compare/${ownerAndBranch}...${forkOwner}:${forkBranch}?client_id=fe51cb18a764a29fc455&client_secrt=8f7b630d487247659702cca0ebb7242b50dd91db`
+    `https://api.github.com/repos/${repo}/compare/${ownerAndBranch}...${forkOwner}:${forkBranch}?client_id=fe51cb18a764a29fc455&client_secret=8f7b630d487247659702cca0ebb7242b50dd91db`
   )
     .then(response => {
       if (!response.ok) throw Error(response.statusText);
