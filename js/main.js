@@ -1,4 +1,4 @@
-// version 1.0.2
+// version 1.0.3
 
 window.addEventListener('load', () => {
   initDT(); // Initialize the DatatTable and window.columnNames variables
@@ -36,6 +36,10 @@ function fetchData() {
   }
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function updateDT(data, repo, ownerAndBranch) {
   // Remove any alerts, if any:
   if ($('.alert')) $('.alert').remove();
@@ -51,6 +55,7 @@ async function updateDT(data, repo, ownerAndBranch) {
     //  fork.status = ''
     //}
     fork.status = await fetchForkInfo(repo, ownerAndBranch, fork.ownerName, fork.default_branch);
+    await sleep(20);
     console.log(fork.status);
     forks.push(fork);
   }
@@ -207,7 +212,7 @@ async function fetchForkInfo(repo, ownerAndBranch, forkOwner, forkBranch) {
     })
     .then(data => {
       console.log(data);
-      return data.status  
+      return data.status + '+' + data.total_commits;   
     })
     .catch(error => {
       const msg =
