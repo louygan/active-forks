@@ -1,7 +1,9 @@
-// version 1.0.6
+// version 1.0.7
+// 20210812 merge upstream
 
 window.addEventListener('load', () => {
   initDT(); // Initialize the DatatTable and window.columnNames variables
+  addDarkmodeWidget();
 
   const repo = getRepoFromUrl();
 
@@ -15,6 +17,10 @@ document.getElementById('form').addEventListener('submit', e => {
   e.preventDefault();
   fetchData();
 });
+
+function addDarkmodeWidget() {
+  new Darkmode( { label: '🌓' } ).showWidget();
+}
 
 function fetchData() {
   const repo = document.getElementById('q').value;
@@ -108,13 +114,20 @@ function initDT() {
       };
     }),
     order: [[sortColumnIdx, 'desc']],
+    // paging: false,
+    searchBuilder:{
+      // all options at default
+    }
   });
+  let table = window.forkTable;
+  new $.fn.dataTable.SearchBuilder(table, {});
+  table.searchBuilder.container().prependTo(table.table().container());
 }
 
 async function fetchAndShow(repo) {
   repo = repo.replace('https://github.com/', '');
   repo = repo.replace('http://github.com/', '');
-  repo = repo.replace('.git', '');
+  repo = repo.replace(/\.git$/, '');
 
   var ownerAndBranch = await fetchRepoInfo(repo);
 
