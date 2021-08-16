@@ -63,7 +63,7 @@ async function updateDT(data, repo, ownerAndBranch) {
     fork.status = await fetchForkInfo(repo, ownerAndBranch, fork.ownerName, fork.default_branch);
     await sleep(50);
     console.log(fork.status);
-    if ( fork.status != "identical+0" } {
+    if ( fork.status.localeCompare("identical+0") != 0 ) {
       forks.push(fork);
     }
   }
