@@ -61,7 +61,7 @@ async function updateDT(data, repo, ownerAndBranch) {
     //  fork.status = ''
     //}
     fork.status = await fetchForkInfo(repo, ownerAndBranch, fork.ownerName, fork.default_branch);
-    await sleep(20);
+    await sleep(50);
     console.log(fork.status);
     forks.push(fork);
   }
