@@ -34,6 +34,7 @@ function fetchData() {
 
   if (re.test(repo)) {
     fetchAndShow(repo);
+    fetchAndShow1(repo)
   } else {
     showMsg(
       'Invalid GitHub repository! Format is &lt;username&gt;/&lt;repo&gt;',
@@ -155,6 +156,14 @@ async function fetchAndShow(repo) {
       showMsg(`${msg}. Additional info in console`, 'danger');
       console.error(error);
     });
+}
+
+async function fetchAndShow1(repo) {
+  repo = repo.replace('https://github.com/', '');
+  repo = repo.replace('http://github.com/', '');
+  repo = repo.replace(/\.git$/, '');
+
+  var ownerAndBranch = await fetchRepoInfo(repo);
   
   // for example, https://api.github.com/repos/techgaun/active-forks/forks?sort=stargazers&per_page=100
   fetch(
