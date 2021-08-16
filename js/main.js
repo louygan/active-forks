@@ -33,8 +33,8 @@ function fetchData() {
   }
 
   if (re.test(repo)) {
-    fetchAndShow(repo);
-    fetchAndShow1(repo)
+    await fetchAndShow(repo);
+    await fetchAndShow1(repo)
   } else {
     showMsg(
       'Invalid GitHub repository! Format is &lt;username&gt;/&lt;repo&gt;',
