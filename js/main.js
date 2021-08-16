@@ -135,7 +135,7 @@ async function fetchAndShow(repo) {
 
   // for example, https://api.github.com/repos/techgaun/active-forks/forks?sort=stargazers&per_page=100
   fetch(
-    `https://api.github.com/repos/${repo}/forks?sort=stargazers&per_page=200&client_id=fe51cb18a764a29fc455&client_secret=8f7b630d487247659702cca0ebb7242b50dd91db`
+    `https://api.github.com/repos/${repo}/forks?sort=stargazers&per_page=100&client_id=fe51cb18a764a29fc455&client_secret=8f7b630d487247659702cca0ebb7242b50dd91db`
   )
     .then(response => {
       if (!response.ok) throw Error(response.statusText);
@@ -155,6 +155,29 @@ async function fetchAndShow(repo) {
       showMsg(`${msg}. Additional info in console`, 'danger');
       console.error(error);
     });
+  
+  // for example, https://api.github.com/repos/techgaun/active-forks/forks?sort=stargazers&per_page=100
+  fetch(
+    `https://api.github.com/repos/${repo}/forks?sort=stargazers&page=2&per_page=100&client_id=fe51cb18a764a29fc455&client_secret=8f7b630d487247659702cca0ebb7242b50dd91db`
+  )
+    .then(response => {
+      if (!response.ok) throw Error(response.statusText);
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+      console.log('fetchAndShow.ownerrAndBranch = ',ownerAndBranch);
+      console.log('fetchAndShow.repo = ',repo);
+      updateDT(data, repo, ownerAndBranch);
+    })
+    .catch(error => {
+      const msg =
+        error.toString().indexOf('Forbidden') >= 0
+          ? 'Error: API Rate Limit Exceeded'
+          : error;
+      showMsg(`${msg}. Additional info in console`, 'danger');
+      console.error(error);
+    });  
 }
 
 function showMsg(msg, type) {
