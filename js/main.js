@@ -63,7 +63,9 @@ async function updateDT(data, repo, ownerAndBranch) {
     fork.status = await fetchForkInfo(repo, ownerAndBranch, fork.ownerName, fork.default_branch);
     await sleep(50);
     console.log(fork.status);
-    forks.push(fork);
+    if ( fork.status != "identical+0" } {
+      forks.push(fork);
+    }
   }
   const dataSet = forks.map(fork =>
     window.columnNamesMap.map(colNM => fork[colNM[1]])
@@ -133,7 +135,7 @@ async function fetchAndShow(repo) {
 
   // for example, https://api.github.com/repos/techgaun/active-forks/forks?sort=stargazers&per_page=100
   fetch(
-    `https://api.github.com/repos/${repo}/forks?sort=stargazers&per_page=100&client_id=fe51cb18a764a29fc455&client_secret=8f7b630d487247659702cca0ebb7242b50dd91db`
+    `https://api.github.com/repos/${repo}/forks?sort=stargazers&per_page=200&client_id=fe51cb18a764a29fc455&client_secret=8f7b630d487247659702cca0ebb7242b50dd91db`
   )
     .then(response => {
       if (!response.ok) throw Error(response.statusText);
