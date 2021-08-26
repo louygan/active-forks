@@ -22,7 +22,7 @@ function addDarkmodeWidget() {
   new Darkmode( { label: '🌓' } ).showWidget();
 }
 
-function fetchData() {
+async function fetchData() {
   const repo = document.getElementById('q').value;
   const re = /[-_\w]+\/[-_.\w]+/;
 
