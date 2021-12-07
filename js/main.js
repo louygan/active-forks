@@ -262,12 +262,10 @@ async function fetchForkInfo(repo, ownerAndBranch, forkOwner, forkBranch) {
       if ( data.status.localeCompare("identical") != 0 ) {
         if ( data.status.localeCompare("ahead") != 0 ) {
           return "behind+" + data.behind_by;
-        }
-        else {
+        } else {
           return "ahead+" + data.ahead_by;   
         }
-      }
-      else {
+      } else {
         return "identical+0";
       }
     })
