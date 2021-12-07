@@ -259,16 +259,16 @@ async function fetchForkInfo(repo, ownerAndBranch, forkOwner, forkBranch) {
     })
     .then(data => {
       console.log(data);
-      if ( data.status.localeCompare("identical") = 0 ) {
+      if ( data.status.localeCompare("identical") != 0 ) {
+        if ( data.status.localeCompare("ahead") != 0 ) {
+          return "behind+" + data.behind_by;   
+        else {
+          return "ahead+" + data.ahead_by;   
+        }
+      }
+      else {
         return "identical+0";
       }
-      if ( data.status.localeCompare("ahead") = 0 ) {
-        return "ahead+" + data.ahead_by;   
-      }
-      if ( data.status.localeCompare("behind") = 0 ) {
-        return "behind+" + data.behind_by;   
-      }
-      return "unknown";
     })
     .catch(error => {
       const msg =
