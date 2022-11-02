@@ -136,7 +136,7 @@ async function fetchAndShow(repo) {
 
   // for example, https://api.github.com/repos/techgaun/active-forks/forks?sort=stargazers&per_page=100
   fetch(
-    `https://api.github.com/repos/${repo}/forks?sort=stargazers&per_page=100&client_id=fe51cb18a764a29fc455&client_secret=8f7b630d487247659702cca0ebb7242b50dd91db`
+    `https://api.github.com/repos/${repo}/forks?per_page=100&client_id=fe51cb18a764a29fc455&client_secret=8f7b630d487247659702cca0ebb7242b50dd91db`
   )
     .then(response => {
       if (!response.ok) throw Error(response.statusText);
@@ -167,7 +167,7 @@ async function fetchAndShow1(repo) {
   
   // for example, https://api.github.com/repos/techgaun/active-forks/forks?sort=stargazers&per_page=100
   fetch(
-    `https://api.github.com/repos/${repo}/forks?sort=stargazers&page=2&per_page=100&client_id=fe51cb18a764a29fc455&client_secret=8f7b630d487247659702cca0ebb7242b50dd91db`
+    `https://api.github.com/repos/${repo}/forks?page=2&per_page=100&client_id=fe51cb18a764a29fc455&client_secret=8f7b630d487247659702cca0ebb7242b50dd91db`
   )
     .then(response => {
       if (!response.ok) throw Error(response.statusText);
